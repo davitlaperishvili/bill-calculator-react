@@ -1,32 +1,33 @@
-import { useState } from 'react'
-import './App.css'
-import { Button, Form, Input, InputNumber, Select, Card } from 'antd';
+import { useState, useEffect } from 'react'
 import BillCalculatorForm from './components/BillCalculator/BillCalculator';
+import BillResult from './components/BillResult/BillResult';
+interface stateType {
+  numberOfPersons: string;
+  totalCount: string;
+  billAmount: string;
+}
 function App(): JSX.Element {
-  const layout = {
-    labelCol: { span: 8 }
-  };
-  const { Option } = Select;
-  
-  /* eslint-disable no-template-curly-in-string */
-  const validateMessages = {
-    required: '${label} is required!',
-    types: {
-      email: '${label} is not a valid email!',
-      number: '${label} is not a valid number!',
-    },
-    number: {
-      range: '${label} must be between ${min} and ${max}',
-    },
-  };
-  /* eslint-enable no-template-curly-in-string */
-  
-  const onFinish = (values: any) => {
-    console.log(values);
-  };
+  const [formValue, setFormValue] = useState<stateType>({
+    numberOfPersons: '',
+    totalCount: '',
+    billAmount: '5',
+  })
+  // recalculate bill result
+  function RenderResult() {
+    const totalMoneyWithBill: string = (Number(formValue.totalCount) + Number(formValue.totalCount) * (Number(formValue.billAmount) / 100)).toString() 
+    
+    const amountPerPerson: string = (Number(totalMoneyWithBill) / Number(formValue.numberOfPersons)).toString()
+    
+    return <BillResult payPerPerson={amountPerPerson} totalToPay={totalMoneyWithBill}/>
+  }
   return (
     <div className="App">
-      <BillCalculatorForm/>
+      <div className="container">
+        <div className="block_wrap">
+          <BillCalculatorForm formValue={formValue} setFormValue={setFormValue}/>
+          {RenderResult()}
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,0 +1,15 @@
+@import "../../assets/sass/base/general.scss";
+
+.calculator_wrap{
+  padding: 20px;
+  border: 1px solid $ccorp;
+  border-radius: 10px;
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  .form_title{
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+}
