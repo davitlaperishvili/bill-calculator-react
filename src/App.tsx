@@ -2,22 +2,24 @@ import { useState, useEffect } from 'react'
 import BillCalculatorForm from './components/BillCalculator/BillCalculator';
 import BillResult from './components/BillResult/BillResult';
 interface stateType {
-  numberOfPersons: string;
-  totalCount: string;
-  billAmount: string;
+  numberOfPersons: number | null;
+  totalCount: number | null;
+  billAmount: number;
 }
 function App(): JSX.Element {
   const [formValue, setFormValue] = useState<stateType>({
-    numberOfPersons: '',
-    totalCount: '',
-    billAmount: '5',
+    numberOfPersons: null,
+    totalCount: null,
+    billAmount: 5,
   })
   // recalculate bill result
   function RenderResult() {
-    const totalMoneyWithBill: string = (Number(formValue.totalCount) + Number(formValue.totalCount) * (Number(formValue.billAmount) / 100)).toString() 
-    
-    const amountPerPerson: string = (Number(totalMoneyWithBill) / Number(formValue.numberOfPersons)).toString()
-    
+    let totalMoneyWithBill: number = 0;
+    let amountPerPerson: number = 0;
+    if(formValue.totalCount != null && formValue.numberOfPersons != null){
+      totalMoneyWithBill = formValue.totalCount + formValue.totalCount * (formValue.billAmount / 100);
+      amountPerPerson = totalMoneyWithBill / formValue.numberOfPersons;
+    }
     return <BillResult payPerPerson={amountPerPerson} totalToPay={totalMoneyWithBill}/>
   }
   return (

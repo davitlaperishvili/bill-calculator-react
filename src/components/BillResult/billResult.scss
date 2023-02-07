@@ -3,13 +3,23 @@
 .bill_result{
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 20px;
   border: 1px solid $ccorp;
   border-left: 0;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: $ccorp;
+  .result_title{
+    margin-bottom: 30px;
+    font-size: 20px;
+    color: $cwhite;
+  }
+  .result_items{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   .result_item{
     margin-bottom: 20px;
     &:last-child{

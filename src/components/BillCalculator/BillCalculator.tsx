@@ -4,9 +4,9 @@ import { SingleValue } from 'react-select/dist/declarations/src';
 import "./billCalculator.scss"
 
 interface stateType {
-  numberOfPersons: string;
-  totalCount: string;
-  billAmount: string;
+  numberOfPersons: number | null;
+  totalCount: number | null;
+  billAmount: number;
 }
 interface propsType {
   setFormValue: any;
@@ -25,7 +25,7 @@ export default function BillCalculatorForm({setFormValue, formValue}: propsType)
   
   const isFormValueEmpty = (obj:stateType) => {
       for (const property in obj) {
-          if(obj[property as keyof typeof obj] === ''){
+          if(obj[property as keyof typeof obj]){
               return true
           }
       }
@@ -35,9 +35,9 @@ export default function BillCalculatorForm({setFormValue, formValue}: propsType)
       e.preventDefault();
       if(!isFormValueEmpty(formValue)){
         setFormValue({
-          numberOfPersons: '',
-          totalCount: '',
-          billAmount: '',
+          numberOfPersons: null,
+          totalCount: null,
+          billAmount: 5,
         })
       }else{
         setFormError(true)
@@ -52,11 +52,11 @@ export default function BillCalculatorForm({setFormValue, formValue}: propsType)
       const target = e.target;
       const value = target.value;
       const name = target.name;
-      const inputItem = {...formValue, [name]: value};
+      const inputItem = {...formValue, [name]: Number(value)};
       setFormValue(inputItem)
   }
   async function handleSelectChange(e: SingleValue<{ value: string; label: string; }>) {
-    const newState: stateType = {...formValue, billAmount: e ? e.value : "" };
+    const newState: stateType = {...formValue, billAmount: e ? Number(e.value) : 5 };
     setFormValue(newState)
   }
   return (
@@ -68,11 +68,11 @@ export default function BillCalculatorForm({setFormValue, formValue}: propsType)
               <div className="form_items">
                   <div className="form_item">
                       <label htmlFor="">Bill</label>
-                      <input type="text" name="totalCount" value={formValue.totalCount} onChange={handleInputChange}  placeholder="Total Count"/>
+                      <input type="text" name="totalCount" value={formValue.totalCount?.toString()} onChange={handleInputChange}  placeholder="Total Count"/>
                   </div>
                   <div className="form_item">
                       <label htmlFor="">Number Of People</label>
-                      <input type="number" name="numberOfPersons" value={formValue.numberOfPersons} onChange={handleInputChange} placeholder="Number Of Persons"/>
+                      <input type="number" name="numberOfPersons" value={formValue.numberOfPersons?.toString()} onChange={handleInputChange} placeholder="Number Of Persons"/>
                   </div>
                   <div className="form_item">
                     <label htmlFor="">Select Tip %</label>
